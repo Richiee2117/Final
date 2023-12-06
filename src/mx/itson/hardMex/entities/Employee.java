@@ -26,7 +26,7 @@ public class Employee {
         List<Employee> employees = new ArrayList<>();
         try {
             Connection conexion = MySQLConnection.get();
-            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM LV_empleados WHERE name LIKE ?");
+            PreparedStatement statement = conexion.prepareStatement("SELECT * FROM LV_empleados WHERE nombre LIKE ?");
             statement.setString(1, "%" + filtro + "%");
             ResultSet resultSet = statement.executeQuery();
 
@@ -45,16 +45,16 @@ public class Employee {
         return employees;
     }
 
-    public boolean save(Employee employee) {
+    public boolean save( String name, String  phone, String position, Double salary) {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "INSERT INTO LV_empleados (nombre, telefono, posicion, salario) VALUES(?,?,?,?)";
+            String query = "INSERT INTO LV_empleados (nombre, telefono, puesto, salario) VALUES(?,?,?,?)";
             PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setString(1, employee.getName());
-            statement.setString(2, employee.getPhone());
-            statement.setString(3, employee.getPosition());
-            statement.setDouble(4, employee.getSalary());
+            statement.setString(1, name);
+            statement.setString(2, phone);
+            statement.setString(3, position);
+            statement.setDouble(4, salary);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
@@ -70,13 +70,13 @@ public class Employee {
         boolean result = false;
         try {
             Connection conexion = MySQLConnection.get();
-            String query = "UPDATE LV_empleados SET nombre=?, telefono=?, posicion=?, salario=? WHERE id=?";
+            String query = "UPDATE LV_empleados SET nombre=?, telefono=?, puesto=?, salario=? WHERE id=?";
             PreparedStatement statement = conexion.prepareStatement(query);
-            statement.setString(1, employee.getName());
-            statement.setString(2, employee.getPhone());
-            statement.setString(3, employee.getPosition());
-            statement.setDouble(4, employee.getSalary());
-            statement.setInt(5, employee.getId());
+            statement.setString(1, name);
+            statement.setString(2, phone);
+            statement.setString(3, position);
+            statement.setDouble(4, salary);
+            statement.setInt(5, id);
             statement.execute();
 
             result = statement.getUpdateCount() == 1;
